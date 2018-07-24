@@ -1,18 +1,24 @@
 {
-    "name": "Moharrum/Utilities",
+    "name": "moharrum/utilities",
     "type": "library",
-    "description": ":package_description",
+    "description": "A set of extra validation methods for the Laravel framework.",
     "keywords": [
         "Moharrum",
-        "Utilities"
+        "Utilities",
+        "Laravel",
+        "Validation",
+        "alpha-num",
+        "alpha-num-space",
+        "max-words",
+        "min-words"
     ],
-    "homepage": "https://github.com/Moharrum/Utilities",
+    "homepage": "https://github.com/moharrum/utilities",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
-            "homepage": ":author_website",
+            "name": "Khalid Moharrum",
+            "email": "khalid.moharram@gmail.com",
+            "homepage": "moharrum.net",
             "role": "Developer"
         }
     ],
