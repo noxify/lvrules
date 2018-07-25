@@ -17,7 +17,7 @@ namespace Moharrum\Utilities\Validators;
 use Illuminate\Support\Facades\Validator;
 
 /**
- * Handle various word validation methods.
+ * Handle various string validation methods.
  *
  * @category Validation
  * @package  Moharrum\Utilities
@@ -25,10 +25,41 @@ use Illuminate\Support\Facades\Validator;
  * @license  http://opensource.org/licenses/MIT MIT license
  * @link     https://github.com/moharrum/utilities
  */
-class Words
+class Strings
 {
     /**
-     * Determine whether the given string is valid or not.
+     * Determine whether the given string is in lowercase format or not.
+     *
+     * @param $attribute
+     * @param $value
+     * @param $parameters
+     * @param $validator
+     *
+     * @return bool
+     */
+    public function lowercase($attribute, $value, $parameters, $validator)
+    {
+        return $value === mb_strtolower($value, mb_detect_encoding($value));
+    }
+
+    /**
+     * Determine whether the given string is in uppercase format or not.
+     *
+     * @param $attribute
+     * @param $value
+     * @param $parameters
+     * @param $validator
+     *
+     * @return bool
+     */
+    public function uppercase($attribute, $value, $parameters, $validator)
+    {
+        return $value === mb_strtoupper($value, mb_detect_encoding($value));
+    }
+
+    /**
+     * Determine whether the given string contains at least
+     * a given number of words or not.
      *
      * @param $attribute
      * @param $value
@@ -61,7 +92,8 @@ class Words
     }
 
     /**
-     * Determine whether the given string is valid or not.
+     * Determine whether the given string contains more than
+     * a given number of words or not.
      *
      * @param $attribute
      * @param $value

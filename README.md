@@ -11,6 +11,7 @@ This is a set of useful extra validation methods for the [Laravel](https://larav
 - [Note](#note)
 - [Installation](#installation)
 - [Rules](#rules)
+- [Languages](#languages)
 - [Contributing](#contributing)
 - [Security](#security)
 - [License](#license)
@@ -35,21 +36,28 @@ Edit `config/app.php` and add the `provider`
     ]
 ```
 
-Publishing the configuration file, this is where you can change the default table name
+## Rules
+
+1. [alpha_space](src/docs/ALPHA_SPACE.md).
+1. [alpha_num_space](src/docs/ALPHA_NUM_SPACE.md).
+1. [uppercase](src/docs/UPPERCASE.md).
+1. [lowercase](src/docs/LOWERCASE.md).
+1. [min_words](src/docs/MIN_WORDS.md).
+1. [max_words](src/docs/MAX_WORDS.md).
+1. [decimals](src/docs/DECIMALS.md).
+1. [tld](src/docs/TLD.md).
+1. [passes](src/docs/PASSES.md).
+1. [fails](src/docs/FAILS.md).
+
+## Languages
+
+Publishing the language files:
 
 ```php
 php artisan vendor:publish
 ```
 
-## Rules
-
-1. [alpha_space](src/docs/ALPHA_SPACE.md).
-1. [alpha_num_space](src/docs/ALPHA_NUM_SPACE.md).
-1. [min_words](src/docs/MIN_WORDS.md).
-1. [max_words](src/docs/MAX_WORDS.md).
-1. [decimals](src/docs/DECIMALS.md).
-1. [passes](src/docs/PASSES.md).
-1. [fails](src/docs/FAILS.md).
+Published files can be found at `/resources/lang/vendor/meme-utils`.
 
 ## Contributing
 

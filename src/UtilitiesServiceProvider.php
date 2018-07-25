@@ -56,6 +56,10 @@ class UtilitiesServiceProvider extends ServiceProvider
 
         $this->bootInvalid();
 
+        $this->bootLowercase();
+
+        $this->bootUppercase();
+
         $this->bootMinWord();
 
         $this->bootMaxWord();
@@ -67,6 +71,8 @@ class UtilitiesServiceProvider extends ServiceProvider
         $this->bootUniqueWith();
 
         $this->bootDecimals();
+
+        $this->bootTld();
     }
 
     /**
@@ -118,11 +124,13 @@ class UtilitiesServiceProvider extends ServiceProvider
     {
         $this->app->validator->extend('fail', '\Moharrum\Utilities\Validators\Test@fail');
 
-        $this->app->validator->replacer('fail', function ($message, $attribute, $rule, $parameters) {
-            $lang = trans('meme-utils::validation.fail');
+        $this->app->validator->replacer(
+            'fail', function ($message, $attribute, $rule, $parameters) {
+                $lang = trans('meme-utils::validation.fail');
 
-            return str_replace(':attribute', $attribute, $lang);
-        });
+                return str_replace(':attribute', $attribute, $lang);
+            }
+        );
     }
 
     /**
@@ -164,13 +172,49 @@ class UtilitiesServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register lowercase validator.
+     *
+     * @return void
+     */
+    public function bootLowercase()
+    {
+        $this->app->validator->extend('lowercase', '\Moharrum\Utilities\Validators\Strings@lowercase');
+
+        $this->app->validator->replacer(
+            'lowercase', function ($message, $attribute, $rule, $parameters) {
+                $lang = trans('meme-utils::validation.lowercase');
+
+                return str_replace(':attribute', $attribute, $lang);
+            }
+        );
+    }
+
+    /**
+     * Register uppercase validator.
+     *
+     * @return void
+     */
+    public function bootUppercase()
+    {
+        $this->app->validator->extend('uppercase', '\Moharrum\Utilities\Validators\Strings@uppercase');
+
+        $this->app->validator->replacer(
+            'uppercase', function ($message, $attribute, $rule, $parameters) {
+                $lang = trans('meme-utils::validation.uppercase');
+
+                return str_replace(':attribute', $attribute, $lang);
+            }
+        );
+    }
+
+    /**
      * Register minimum words validator.
      *
      * @return void
      */
     public function bootMinWord()
     {
-        $this->app->validator->extend('min_words', '\Moharrum\Utilities\Validators\Words@minWords');
+        $this->app->validator->extend('min_words', '\Moharrum\Utilities\Validators\Strings@minWords');
 
         $this->app->validator->replacer(
             'min_words', function ($message, $attribute, $rule, $parameters) {
@@ -189,7 +233,7 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     public function bootMaxWord()
     {
-        $this->app->validator->extend('max_words', '\Moharrum\Utilities\Validators\Words@maxWords');
+        $this->app->validator->extend('max_words', '\Moharrum\Utilities\Validators\Strings@maxWords');
 
         $this->app->validator->replacer(
             'max_words',
@@ -279,6 +323,22 @@ class UtilitiesServiceProvider extends ServiceProvider
                     ],
                     trans('meme-utils::validation.decimals')
                 );
+            }
+        );
+    }
+
+    /**
+     * Register tld validator.
+     *
+     * @return void
+     */
+    public function bootTld()
+    {
+        $this->app->validator->extend('tld', '\Moharrum\Utilities\Validators\Tlds@validate');
+
+        $this->app->validator->replacer(
+            'tld', function ($message, $attribute, $rule, $parameters) {
+                return str_replace(':attribute', $attribute, trans('meme-utils::validation.tld'));
             }
         );
     }
