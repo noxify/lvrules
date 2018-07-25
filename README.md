@@ -43,12 +43,13 @@ php artisan vendor:publish
 
 ## Rules
 
-1. [Alpha Num](src/docs/ALPHA_NUM.md).
-1. [Alpha Num Space](src/docs/ALPHA_NUM_SAPCE.md).
-1. [Min Words](src/docs/MIN_WORDS.md).
-1. [Max Words](src/docs/MAX_WORDS.md).
-1. [Passes](src/docs/PASSES.md).
-1. [Fails](src/docs/FAILS.md).
+1. [alpha_space](src/docs/ALPHA_SPACE.md).
+1. [alpha_num_space](src/docs/ALPHA_NUM_SPACE.md).
+1. [min_words](src/docs/MIN_WORDS.md).
+1. [max_words](src/docs/MAX_WORDS.md).
+1. [decimals](src/docs/DECIMALS.md).
+1. [passes](src/docs/PASSES.md).
+1. [fails](src/docs/FAILS.md).
 
 ## Contributing
 

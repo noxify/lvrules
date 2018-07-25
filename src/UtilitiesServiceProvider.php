@@ -15,6 +15,7 @@
 namespace Moharrum\Utilities;
 
 use Illuminate\Support\ServiceProvider;
+use Moharrum\Utilities\Exceptions\InvalidArgumentException;
 
 /**
  * Moharrum utilities package service provider.
@@ -64,6 +65,8 @@ class UtilitiesServiceProvider extends ServiceProvider
         $this->bootAlphaNumSpace();
 
         $this->bootUniqueWith();
+
+        $this->bootDecimals();
     }
 
     /**
@@ -244,6 +247,38 @@ class UtilitiesServiceProvider extends ServiceProvider
         $this->app->validator->replacer(
             'unique_with', function ($message, $attribute, $rule, $parameters) {
                 return str_replace(':attribute', $attribute, trans('meme-utils::validation.unique_with'));
+            }
+        );
+    }
+
+    /**
+     * Register decimals validator.
+     *
+     * @return void
+     */
+    public function bootDecimals()
+    {
+        $this->app->validator->extend('decimals', '\Moharrum\Utilities\Validators\Number@decimals');
+
+        $this->app->validator->replacer(
+            'decimals', function ($message, $attribute, $rule, $parameters) {
+                if (! isset($parameters[0])) {
+                    throw new InvalidArgumentException('Invalid syntax, missing decimals places.');
+                }
+
+                $numberOfDecimalPointPlaces = (int)$parameters[0];
+
+                return str_replace(
+                    [
+                        ':attribute',
+                        ':num_of_decimal_point_places',
+                    ],
+                    [
+                        $attribute,
+                        $numberOfDecimalPointPlaces
+                    ],
+                    trans('meme-utils::validation.decimals')
+                );
             }
         );
     }
