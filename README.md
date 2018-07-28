@@ -61,7 +61,7 @@ Publishing the language files:
 php artisan vendor:publish
 ```
 
-Published files can be found at `/resources/lang/vendor/meme-utils`.
+Published files can be found at `/resources/lang/vendor/lvrules`.
 
 ## Contributing
 
