@@ -6,32 +6,31 @@
  * PHP version 5, 7.
  *
  * @category Validation
- * @package  Moharrum\Utilities
+ * @package  Moharrum\LVRules
  * @author   Khalid Moharrum <khalid.moharram@gmail.com>
  * @license  http://opensource.org/licenses/MIT MIT license
- * @link     https://github.com/moharrum/utilities
+ * @link     https://github.com/moharrum/lvrules
  */
 
-namespace Moharrum\Utilities\Validators;
+namespace Moharrum\LVRules\Validators;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Moharrum\Utilities\Exceptions\InvalidArgumentException;
+use Moharrum\LVRules\Exceptions\InvalidArgumentException;
 
 /**
  * Handle unique with property validations.
  *
  * @category Validation
- * @package  Moharrum\Utilities
+ * @package  Moharrum\LVRules
  * @author   Khalid Moharrum <khalid.moharram@gmail.com>
  * @license  http://opensource.org/licenses/MIT MIT license
- * @link     https://github.com/moharrum/utilities
+ * @link     https://github.com/moharrum/lvrules
  */
 class UniqueWith
 {
     /**
-     *
      * @var string
      */
     protected $tablename;
@@ -46,7 +45,7 @@ class UniqueWith
     public function setTablename($parameters)
     {
         if (! isset($parameters[0])) {
-            throw new InvalidArgumentException('Invalid syntax, missing table name.');
+            throw new InvalidArgumentException('Unique With Validation Rule: invalid syntax, missing table name.');
         }
 
         $this->tablename = $parameters[0];
@@ -148,7 +147,7 @@ class UniqueWith
         $connection = mb_substr($connection->first(), mb_strpos($connection->first(), ':') + 1);
 
         if (empty($connection)) {
-            throw new InvalidArgumentException('Invalid syntax, connection name not supplied.');
+            throw new InvalidArgumentException('Unique With Validation Rule: invalid syntax, connection name not supplied.');
         }
 
         $this->connection = trim($connection);
@@ -194,7 +193,7 @@ class UniqueWith
         $ignored = mb_substr($ignore->first(), mb_strpos($ignore->first(), ':') + 1);
 
         if (empty($ignored)) {
-            throw new InvalidArgumentException('Invalid syntax, ignored value not supplied.');
+            throw new InvalidArgumentException('Unique With Validation Rule: invalid syntax, ignored value not supplied.');
         }
 
         $this->ignoredValue = trim($ignored);
@@ -250,7 +249,7 @@ class UniqueWith
         $ignored = mb_substr($ignore->first(), mb_strpos($ignore->first(), ':') + 1);
 
         if (empty($ignored)) {
-            throw new InvalidArgumentException('Invalid syntax, column name not supplied.');
+            throw new InvalidArgumentException('Unique With Validation Rule: invalid syntax, column name not supplied.');
         }
 
         $this->ignoredColumnName = trim($ignored);

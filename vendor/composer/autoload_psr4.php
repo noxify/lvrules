@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Moharrum\\Utilities\\' => array($baseDir . '/src', $baseDir . '/tests'),
+    'Moharrum\\LVRules\\' => array($baseDir . '/src', $baseDir . '/tests'),
 );

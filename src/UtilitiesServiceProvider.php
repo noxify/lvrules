@@ -6,27 +6,28 @@
  * PHP version 5, 7.
  *
  * @category Validation
- * @package  Moharrum\Utilities
+ * @package  Moharrum\LVRules
  * @author   Khalid Moharrum <khalid.moharram@gmail.com>
  * @license  http://opensource.org/licenses/MIT MIT license
- * @link     https://github.com/moharrum/utilities
+ * @link     https://github.com/moharrum/lvrules
  */
 
-namespace Moharrum\Utilities;
+namespace Moharrum\LVRules;
 
 use Illuminate\Support\ServiceProvider;
-use Moharrum\Utilities\Exceptions\InvalidArgumentException;
+use \Moharrum\LVRules\Validators\UniqueWith;
+use Moharrum\LVRules\Exceptions\InvalidArgumentException;
 
 /**
- * Moharrum utilities package service provider.
+ * Moharrum Laravel rules package service provider.
  *
  * @category Validation
- * @package  Moharrum\Utilities
+ * @package  Moharrum\LVRules
  * @author   Khalid Moharrum <khalid.moharram@gmail.com>
  * @license  http://opensource.org/licenses/MIT MIT license
- * @link     https://github.com/moharrum/utilities
+ * @link     https://github.com/moharrum/lvrules
  */
-class UtilitiesServiceProvider extends ServiceProvider
+class LVRulesServiceProvider extends ServiceProvider
 {
     /**
      * Perform post-registration booting of services.
@@ -35,13 +36,13 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadTranslationsFrom(__DIR__ . '/lang', 'meme-utils');
+        $this->loadTranslationsFrom(__DIR__ . '/lang', 'lvrules');
 
         $this->publishes(
             [
-                __DIR__ . '/lang' => resource_path('lang/vendor/meme-utils'),
+                __DIR__ . '/lang' => resource_path('lang/vendor/lvrules'),
             ],
-            'moharrum-utilities'
+            'lvrules'
         );
 
         $this->bootPass();
@@ -70,6 +71,14 @@ class UtilitiesServiceProvider extends ServiceProvider
 
         $this->bootUniqueWith();
 
+        $this->bootOdd();
+
+        $this->bootEven();
+
+        $this->bootFinite();
+
+        $this->bootInfinite();
+
         $this->bootDecimals();
 
         $this->bootTld();
@@ -92,7 +101,7 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     public function bootPass()
     {
-        $this->app->validator->extend('pass', '\Moharrum\Utilities\Validators\Test@pass');
+        $this->app->validator->extend('pass', '\Moharrum\LVRules\Validators\Test@pass');
     }
 
     /**
@@ -102,7 +111,7 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     public function bootPasses()
     {
-        $this->app->validator->extend('passes', '\Moharrum\Utilities\Validators\Test@passes');
+        $this->app->validator->extend('passes', '\Moharrum\LVRules\Validators\Test@passes');
     }
 
     /**
@@ -112,7 +121,7 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     public function bootValid()
     {
-        $this->app->validator->extend('valid', '\Moharrum\Utilities\Validators\Test@valid');
+        $this->app->validator->extend('valid', '\Moharrum\LVRules\Validators\Test@valid');
     }
 
     /**
@@ -122,11 +131,11 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     public function bootFail()
     {
-        $this->app->validator->extend('fail', '\Moharrum\Utilities\Validators\Test@fail');
+        $this->app->validator->extend('fail', '\Moharrum\LVRules\Validators\Test@fail');
 
         $this->app->validator->replacer(
             'fail', function ($message, $attribute, $rule, $parameters) {
-                $lang = trans('meme-utils::validation.fail');
+                $lang = trans('lvrules::validation.fail');
 
                 return str_replace(':attribute', $attribute, $lang);
             }
@@ -140,12 +149,12 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     public function bootFails()
     {
-        $this->app->validator->extend('fails', '\Moharrum\Utilities\Validators\Test@fails');
+        $this->app->validator->extend('fails', '\Moharrum\LVRules\Validators\Test@fails');
 
         $this->app->validator->replacer(
             'fails',
             function ($message, $attribute, $rule, $parameters) {
-                $lang = trans('meme-utils::validation.fails');
+                $lang = trans('lvrules::validation.fails');
 
                 return str_replace(':attribute', $attribute, $lang);
             }
@@ -159,12 +168,12 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     public function bootInvalid()
     {
-        $this->app->validator->extend('invalid', '\Moharrum\Utilities\Validators\Test@invalid');
+        $this->app->validator->extend('invalid', '\Moharrum\LVRules\Validators\Test@invalid');
 
         $this->app->validator->replacer(
             'invalid',
             function ($message, $attribute, $rule, $parameters) {
-                $lang = trans('meme-utils::validation.invalid');
+                $lang = trans('lvrules::validation.invalid');
 
                 return str_replace(':attribute', $attribute, $lang);
             }
@@ -178,11 +187,11 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     public function bootLowercase()
     {
-        $this->app->validator->extend('lowercase', '\Moharrum\Utilities\Validators\Strings@lowercase');
+        $this->app->validator->extend('lowercase', '\Moharrum\LVRules\Validators\Strings@lowercase');
 
         $this->app->validator->replacer(
             'lowercase', function ($message, $attribute, $rule, $parameters) {
-                $lang = trans('meme-utils::validation.lowercase');
+                $lang = trans('lvrules::validation.lowercase');
 
                 return str_replace(':attribute', $attribute, $lang);
             }
@@ -196,11 +205,11 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     public function bootUppercase()
     {
-        $this->app->validator->extend('uppercase', '\Moharrum\Utilities\Validators\Strings@uppercase');
+        $this->app->validator->extend('uppercase', '\Moharrum\LVRules\Validators\Strings@uppercase');
 
         $this->app->validator->replacer(
             'uppercase', function ($message, $attribute, $rule, $parameters) {
-                $lang = trans('meme-utils::validation.uppercase');
+                $lang = trans('lvrules::validation.uppercase');
 
                 return str_replace(':attribute', $attribute, $lang);
             }
@@ -214,11 +223,11 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     public function bootMinWord()
     {
-        $this->app->validator->extend('min_words', '\Moharrum\Utilities\Validators\Strings@minWords');
+        $this->app->validator->extend('min_words', '\Moharrum\LVRules\Validators\Strings@minWords');
 
         $this->app->validator->replacer(
             'min_words', function ($message, $attribute, $rule, $parameters) {
-                $lang = trans('meme-utils::validation.min_words');
+                $lang = trans('lvrules::validation.min_words');
                 $langWithLength = str_replace(':num_words', $parameters[0], $lang);
 
                 return str_replace(':attribute', $attribute, $langWithLength);
@@ -233,12 +242,12 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     public function bootMaxWord()
     {
-        $this->app->validator->extend('max_words', '\Moharrum\Utilities\Validators\Strings@maxWords');
+        $this->app->validator->extend('max_words', '\Moharrum\LVRules\Validators\Strings@maxWords');
 
         $this->app->validator->replacer(
             'max_words',
             function ($message, $attribute, $rule, $parameters) {
-                $lang = trans('meme-utils::validation.max_words');
+                $lang = trans('lvrules::validation.max_words');
                 $langWithLength = str_replace(':num_words', $parameters[0], $lang);
 
                 return str_replace(':attribute', $attribute, $langWithLength);
@@ -253,11 +262,11 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     public function bootAlphaSpace()
     {
-        $this->app->validator->extend('alpha_space', '\Moharrum\Utilities\Validators\Alpha@alphaSpace');
+        $this->app->validator->extend('alpha_space', '\Moharrum\LVRules\Validators\Alpha@alphaSpace');
 
         $this->app->validator->replacer(
             'alpha_space', function ($message, $attribute, $rule, $parameters) {
-                return str_replace(':attribute', $attribute, trans('meme-utils::validation.alpha_space'));
+                return str_replace(':attribute', $attribute, trans('lvrules::validation.alpha_space'));
             }
         );
     }
@@ -269,12 +278,12 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     public function bootAlphaNumSpace()
     {
-        $this->app->validator->extend('alpha_num_space', '\Moharrum\Utilities\Validators\Alpha@alphaNumSpace');
+        $this->app->validator->extend('alpha_num_space', '\Moharrum\LVRules\Validators\Alpha@alphaNumSpace');
 
         $this->app->validator->replacer(
             'alpha_num_space',
             function ($message, $attribute, $rule, $parameters) {
-                return str_replace(':attribute', $attribute, trans('meme-utils::validation.alpha_num_space'));
+                return str_replace(':attribute', $attribute, trans('lvrules::validation.alpha_num_space'));
             }
         );
     }
@@ -286,11 +295,105 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     public function bootUniqueWith()
     {
-        $this->app->validator->extend('unique_with', '\Moharrum\Utilities\Validators\UniqueWith@validate');
+        $columns = [];
+
+        $this->app->validator->extend(
+            'unique_with',
+            function ($attribute, $value, $parameters, $validator) use (&$columns) {
+                $uniqueWith = new UniqueWith;
+
+                $check = $uniqueWith->validate($attribute, $value, $parameters, $validator);
+
+                $columns = $uniqueWith->getColumns();
+
+                return $check;
+            }
+        );
 
         $this->app->validator->replacer(
-            'unique_with', function ($message, $attribute, $rule, $parameters) {
-                return str_replace(':attribute', $attribute, trans('meme-utils::validation.unique_with'));
+            'unique_with',
+            function ($message, $attribute, $rule, $parameters) use (&$columns) {
+                return str_replace(':columns', implode($columns, ', '), trans('lvrules::validation.unique_with'));
+            }
+        );
+    }
+
+    /**
+     * Register odd validator.
+     *
+     * @return void
+     */
+    public function bootOdd()
+    {
+        $this->app->validator->extend('odd', '\Moharrum\LVRules\Validators\Numbers@odd');
+
+        $this->app->validator->replacer(
+            'odd', function ($message, $attribute, $rule, $parameters) {
+                return str_replace(
+                    ':attribute',
+                    $attribute,
+                    trans('lvrules::validation.odd')
+                );
+            }
+        );
+    }
+
+    /**
+     * Register even validator.
+     *
+     * @return void
+     */
+    public function bootEven()
+    {
+        $this->app->validator->extend('even', '\Moharrum\LVRules\Validators\Numbers@even');
+
+        $this->app->validator->replacer(
+            'even', function ($message, $attribute, $rule, $parameters) {
+                return str_replace(
+                    ':attribute',
+                    $attribute,
+                    trans('lvrules::validation.even')
+                );
+            }
+        );
+    }
+
+    /**
+     * Register finite validator.
+     *
+     * @return void
+     */
+    public function bootFinite()
+    {
+        $this->app->validator->extend('finite', '\Moharrum\LVRules\Validators\Numbers@finite');
+
+        $this->app->validator->replacer(
+            'finite', function ($message, $attribute, $rule, $parameters) {
+                return str_replace(
+                    ':attribute',
+                    $attribute,
+                    trans('lvrules::validation.finite')
+                );
+            }
+        );
+    }
+
+    /**
+     * Register infinite validator.
+     *
+     * @return void
+     */
+    public function bootInfinite()
+    {
+        $this->app->validator->extend('infinite', '\Moharrum\LVRules\Validators\Numbers@infinite');
+
+        $this->app->validator->replacer(
+            'infinite', function ($message, $attribute, $rule, $parameters) {
+                return str_replace(
+                    ':attribute',
+                    $attribute,
+                    trans('lvrules::validation.infinite')
+                );
             }
         );
     }
@@ -302,7 +405,7 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     public function bootDecimals()
     {
-        $this->app->validator->extend('decimals', '\Moharrum\Utilities\Validators\Number@decimals');
+        $this->app->validator->extend('decimals', '\Moharrum\LVRules\Validators\Numbers@decimals');
 
         $this->app->validator->replacer(
             'decimals', function ($message, $attribute, $rule, $parameters) {
@@ -321,7 +424,7 @@ class UtilitiesServiceProvider extends ServiceProvider
                         $attribute,
                         $numberOfDecimalPointPlaces
                     ],
-                    trans('meme-utils::validation.decimals')
+                    trans('lvrules::validation.decimals')
                 );
             }
         );
@@ -334,11 +437,11 @@ class UtilitiesServiceProvider extends ServiceProvider
      */
     public function bootTld()
     {
-        $this->app->validator->extend('tld', '\Moharrum\Utilities\Validators\Tlds@validate');
+        $this->app->validator->extend('tld', '\Moharrum\LVRules\Validators\Tlds@validate');
 
         $this->app->validator->replacer(
             'tld', function ($message, $attribute, $rule, $parameters) {
-                return str_replace(':attribute', $attribute, trans('meme-utils::validation.tld'));
+                return str_replace(':attribute', $attribute, trans('lvrules::validation.tld'));
             }
         );
     }

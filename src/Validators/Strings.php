@@ -6,13 +6,13 @@
  * PHP version 5, 7.
  *
  * @category Validation
- * @package  Moharrum\Utilities
+ * @package  Moharrum\LVRules
  * @author   Khalid Moharrum <khalid.moharram@gmail.com>
  * @license  http://opensource.org/licenses/MIT MIT license
- * @link     https://github.com/moharrum/utilities
+ * @link     https://github.com/moharrum/lvrules
  */
 
-namespace Moharrum\Utilities\Validators;
+namespace Moharrum\LVRules\Validators;
 
 use Illuminate\Support\Facades\Validator;
 
@@ -20,10 +20,10 @@ use Illuminate\Support\Facades\Validator;
  * Handle various string validation methods.
  *
  * @category Validation
- * @package  Moharrum\Utilities
+ * @package  Moharrum\LVRules
  * @author   Khalid Moharrum <khalid.moharram@gmail.com>
  * @license  http://opensource.org/licenses/MIT MIT license
- * @link     https://github.com/moharrum/utilities
+ * @link     https://github.com/moharrum/lvrules
  */
 class Strings
 {

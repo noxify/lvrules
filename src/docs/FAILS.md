@@ -1,4 +1,4 @@
-# passes
+# fails
 
 Obviously, validation will always return false.
 

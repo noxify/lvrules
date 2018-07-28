@@ -2,7 +2,12 @@
 
 Determine whether or not the given number has (n) decimal point places or not.
 
-## Usage
+### Notes
+
+* Also accepts negative numbers.
+* (n) can't be 0. If you need to do so, please refer to [Laravel Validation Rules](https://laravel.com/docs/5.6/validation).
+
+### Usage
 
 ```php
 'field_name' => 'decimals:n',

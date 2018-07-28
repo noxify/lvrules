@@ -1,10 +1,10 @@
 {
-    "name": "moharrum/utilities",
+    "name": "moharrum/lvrules",
     "type": "library",
     "description": "A set of extra validation methods for the Laravel framework.",
     "keywords": [
         "Moharrum",
-        "Utilities",
+        "LVRules",
         "Laravel",
         "Validation",
         "alpha-space",
@@ -18,7 +18,7 @@
         "max-words",
         "min-words"
     ],
-    "homepage": "https://github.com/moharrum/utilities",
+    "homepage": "https://github.com/moharrum/lvrules",
     "license": "MIT",
     "authors": [
         {
@@ -38,12 +38,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Moharrum\\Utilities\\": "src"
+            "Moharrum\\LVRules\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Moharrum\\Utilities\\": "tests"
+            "Moharrum\\LVRules\\": "tests"
         }
     },
     "scripts": {

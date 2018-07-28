@@ -1,6 +1,6 @@
 <?php
 
-namespace Moharrum\Utilities\Exceptions;
+namespace Moharrum\LVRules\Exceptions;
 
 use Exception;
 

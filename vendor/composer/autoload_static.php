@@ -9,12 +9,12 @@ class ComposerStaticInit3dc0abd2db62077ea47fabdd70961880
     public static $prefixLengthsPsr4 = array (
         'M' => 
         array (
-            'Moharrum\\Utilities\\' => 19,
+            'Moharrum\\LVRules\\' => 17,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Moharrum\\Utilities\\' => 
+        'Moharrum\\LVRules\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
             1 => __DIR__ . '/../..' . '/tests',

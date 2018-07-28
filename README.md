@@ -1,4 +1,4 @@
-# Utilities
+# LVRules
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
@@ -25,29 +25,33 @@ Rules included in this package written by me (or other contributers) where not a
 Via Composer
 
 ``` bash
-$ composer require moharrum/utilities
+$ composer require moharrum/lvrules
 ```
 
 Edit `config/app.php` and add the `provider`
 
 ```php
     'providers' => [
-        Moharrum\Utilities\UtilitiesServiceProvider::class,
+        Moharrum\LVRules\LVRulesServiceProvider::class,
     ]
 ```
 
 ## Rules
 
-1. [alpha_space](src/docs/ALPHA_SPACE.md).
 1. [alpha_num_space](src/docs/ALPHA_NUM_SPACE.md).
-1. [uppercase](src/docs/UPPERCASE.md).
-1. [lowercase](src/docs/LOWERCASE.md).
-1. [min_words](src/docs/MIN_WORDS.md).
-1. [max_words](src/docs/MAX_WORDS.md).
+1. [alpha_space](src/docs/ALPHA_SPACE.md).
 1. [decimals](src/docs/DECIMALS.md).
-1. [tld](src/docs/TLD.md).
-1. [passes](src/docs/PASSES.md).
+1. [even](src/docs/EVEN.md).
 1. [fails](src/docs/FAILS.md).
+1. [finite](src/docs/FINITE.md).
+1. [infinite](src/docs/INFINITE.md).
+1. [lowercase](src/docs/LOWERCASE.md).
+1. [max_words](src/docs/MAX_WORDS.md).
+1. [min_words](src/docs/MIN_WORDS.md).
+1. [odd](src/docs/ODD.md).
+1. [passes](src/docs/PASSES.md).
+1. [tld](src/docs/TLD.md).
+1. [uppercase](src/docs/UPPERCASE.md).
 
 ## Languages
 
@@ -71,10 +75,10 @@ If you discover any security related issues, please email khalid.moharram@gmail.
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/moharrum/utilities.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/moharrum/lvrules.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/moharrum/utilities.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/moharrum/lvrules.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/moharrum/utilities
-[link-downloads]: https://packagist.org/packages/moharrum/utilities
+[link-packagist]: https://packagist.org/packages/moharrum/lvrules
+[link-downloads]: https://packagist.org/packages/moharrum/lvrules
 [link-author]: https://github.com/moharrum
