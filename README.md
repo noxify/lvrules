@@ -51,6 +51,7 @@ Edit `config/app.php` and add the `provider`
 1. [odd](src/docs/ODD.md).
 1. [passes](src/docs/PASSES.md).
 1. [tld](src/docs/TLD.md).
+1. [unique_with](src/docs/UNIQUE_WITH.md).
 1. [uppercase](src/docs/UPPERCASE.md).
 
 ## Languages
