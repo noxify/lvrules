@@ -82,6 +82,8 @@ class LVRulesServiceProvider extends ServiceProvider
         $this->bootDecimals();
 
         $this->bootTld();
+
+        $this->bootColor();
     }
 
     /**
@@ -442,6 +444,22 @@ class LVRulesServiceProvider extends ServiceProvider
         $this->app->validator->replacer(
             'tld', function ($message, $attribute, $rule, $parameters) {
                 return str_replace(':attribute', $attribute, trans('lvrules::validation.tld'));
+            }
+        );
+    }
+
+    /**
+     * Register color validator.
+     *
+     * @return void
+     */
+    public function bootColor()
+    {
+        $this->app->validator->extend('color', '\Moharrum\LVRules\Validators\Color@validate');
+
+        $this->app->validator->replacer(
+            'color', function ($message, $attribute, $rule, $parameters) {
+                return str_replace(':attribute', $attribute, trans('lvrules::validation.color'));
             }
         );
     }

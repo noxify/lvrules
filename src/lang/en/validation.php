@@ -22,4 +22,6 @@ return [
     'alpha_space' => 'The :attribute may only contain letters and spaces.',
     'alpha_num_space' => 'The :attribute may only contain letters, numbers and spaces.',
 
+    'color' => 'The :attribute does not contain a valid color value.',
+
 ];
