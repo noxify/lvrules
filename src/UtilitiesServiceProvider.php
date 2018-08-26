@@ -14,7 +14,9 @@
 
 namespace Moharrum\LVRules;
 
+use \Moharrum\LVRules\Validators\Slug;
 use Illuminate\Support\ServiceProvider;
+use \Moharrum\LVRules\Validators\Strings;
 use \Moharrum\LVRules\Validators\UniqueWith;
 use Moharrum\LVRules\Exceptions\InvalidArgumentException;
 
@@ -45,11 +47,13 @@ class LVRulesServiceProvider extends ServiceProvider
             'lvrules'
         );
 
-        $this->bootPass();
+        $this->bootAlphaNumSpace();
 
-        $this->bootPasses();
+        $this->bootAlphaSpace();
 
-        $this->bootValid();
+        $this->bootDecimals();
+
+        $this->bootEven();
 
         $this->bootFail();
 
@@ -57,33 +61,39 @@ class LVRulesServiceProvider extends ServiceProvider
 
         $this->bootInvalid();
 
-        $this->bootLowercase();
-
-        $this->bootUppercase();
-
-        $this->bootMinWord();
-
-        $this->bootMaxWord();
-
-        $this->bootAlphaSpace();
-
-        $this->bootAlphaNumSpace();
-
-        $this->bootUniqueWith();
-
-        $this->bootOdd();
-
-        $this->bootEven();
-
         $this->bootFinite();
 
         $this->bootInfinite();
 
-        $this->bootDecimals();
+        $this->bootLowercase();
+
+        $this->bootMaxWord();
+
+        $this->bootMinWord();
+
+        $this->bootOdd();
+
+        $this->bootPass();
+
+        $this->bootPasses();
+
+        $this->bootValid();
+
+        $this->bootSlug();
 
         $this->bootTld();
 
+        $this->bootUniqueWith();
+
+        $this->bootUppercase();
+
+        $this->bootUppercase();
+
+        $this->bootUsername();
+
+        // Still not developed
         $this->bootColor();
+
     }
 
     /**
@@ -97,33 +107,88 @@ class LVRulesServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register always return true validator.
+     * Register alpha num space validator.
      *
      * @return void
      */
-    public function bootPass()
+    public function bootAlphaNumSpace()
     {
-        $this->app->validator->extend('pass', '\Moharrum\LVRules\Validators\Test@pass');
+        $this->app->validator->extend('alpha_num_space', '\Moharrum\LVRules\Validators\Strings@alphaNumSpace');
+
+        $this->app->validator->replacer(
+            'alpha_num_space',
+            function ($message, $attribute, $rule, $parameters) {
+                return str_replace(':attribute', $attribute, trans('lvrules::validation.alpha_num_space'));
+            }
+        );
     }
 
     /**
-     * Register always return true validator.
+     * Register alpha space validator.
      *
      * @return void
      */
-    public function bootPasses()
+    public function bootAlphaSpace()
     {
-        $this->app->validator->extend('passes', '\Moharrum\LVRules\Validators\Test@passes');
+        $this->app->validator->extend('alpha_space', '\Moharrum\LVRules\Validators\Strings@alphaSpace');
+
+        $this->app->validator->replacer(
+            'alpha_space', function ($message, $attribute, $rule, $parameters) {
+                return str_replace(':attribute', $attribute, trans('lvrules::validation.alpha_space'));
+            }
+        );
     }
 
     /**
-     * Register always return true validator.
+     * Register decimals validator.
      *
      * @return void
      */
-    public function bootValid()
+    public function bootDecimals()
     {
-        $this->app->validator->extend('valid', '\Moharrum\LVRules\Validators\Test@valid');
+        $this->app->validator->extend('decimals', '\Moharrum\LVRules\Validators\Numbers@decimals');
+
+        $this->app->validator->replacer(
+            'decimals', function ($message, $attribute, $rule, $parameters) {
+                if (! isset($parameters[0])) {
+                    throw new InvalidArgumentException('Invalid syntax, missing decimals places.');
+                }
+
+                $numberOfDecimalPointPlaces = (int)$parameters[0];
+
+                return str_replace(
+                    [
+                        ':attribute',
+                        ':num_of_decimal_point_places',
+                    ],
+                    [
+                        $attribute,
+                        $numberOfDecimalPointPlaces
+                    ],
+                    trans('lvrules::validation.decimals')
+                );
+            }
+        );
+    }
+
+    /**
+     * Register even validator.
+     *
+     * @return void
+     */
+    public function bootEven()
+    {
+        $this->app->validator->extend('even', '\Moharrum\LVRules\Validators\Numbers@even');
+
+        $this->app->validator->replacer(
+            'even', function ($message, $attribute, $rule, $parameters) {
+                return str_replace(
+                    ':attribute',
+                    $attribute,
+                    trans('lvrules::validation.even')
+                );
+            }
+        );
     }
 
     /**
@@ -156,7 +221,7 @@ class LVRulesServiceProvider extends ServiceProvider
         $this->app->validator->replacer(
             'fails',
             function ($message, $attribute, $rule, $parameters) {
-                $lang = trans('lvrules::validation.fails');
+                $lang = trans('lvrules::validation.fail');
 
                 return str_replace(':attribute', $attribute, $lang);
             }
@@ -175,187 +240,9 @@ class LVRulesServiceProvider extends ServiceProvider
         $this->app->validator->replacer(
             'invalid',
             function ($message, $attribute, $rule, $parameters) {
-                $lang = trans('lvrules::validation.invalid');
+                $lang = trans('lvrules::validation.fail');
 
                 return str_replace(':attribute', $attribute, $lang);
-            }
-        );
-    }
-
-    /**
-     * Register lowercase validator.
-     *
-     * @return void
-     */
-    public function bootLowercase()
-    {
-        $this->app->validator->extend('lowercase', '\Moharrum\LVRules\Validators\Strings@lowercase');
-
-        $this->app->validator->replacer(
-            'lowercase', function ($message, $attribute, $rule, $parameters) {
-                $lang = trans('lvrules::validation.lowercase');
-
-                return str_replace(':attribute', $attribute, $lang);
-            }
-        );
-    }
-
-    /**
-     * Register uppercase validator.
-     *
-     * @return void
-     */
-    public function bootUppercase()
-    {
-        $this->app->validator->extend('uppercase', '\Moharrum\LVRules\Validators\Strings@uppercase');
-
-        $this->app->validator->replacer(
-            'uppercase', function ($message, $attribute, $rule, $parameters) {
-                $lang = trans('lvrules::validation.uppercase');
-
-                return str_replace(':attribute', $attribute, $lang);
-            }
-        );
-    }
-
-    /**
-     * Register minimum words validator.
-     *
-     * @return void
-     */
-    public function bootMinWord()
-    {
-        $this->app->validator->extend('min_words', '\Moharrum\LVRules\Validators\Strings@minWords');
-
-        $this->app->validator->replacer(
-            'min_words', function ($message, $attribute, $rule, $parameters) {
-                $lang = trans('lvrules::validation.min_words');
-                $langWithLength = str_replace(':num_words', $parameters[0], $lang);
-
-                return str_replace(':attribute', $attribute, $langWithLength);
-            }
-        );
-    }
-
-    /**
-     * Register maximum words validator.
-     *
-     * @return void
-     */
-    public function bootMaxWord()
-    {
-        $this->app->validator->extend('max_words', '\Moharrum\LVRules\Validators\Strings@maxWords');
-
-        $this->app->validator->replacer(
-            'max_words',
-            function ($message, $attribute, $rule, $parameters) {
-                $lang = trans('lvrules::validation.max_words');
-                $langWithLength = str_replace(':num_words', $parameters[0], $lang);
-
-                return str_replace(':attribute', $attribute, $langWithLength);
-            }
-        );
-    }
-
-    /**
-     * Register alpha space validator.
-     *
-     * @return void
-     */
-    public function bootAlphaSpace()
-    {
-        $this->app->validator->extend('alpha_space', '\Moharrum\LVRules\Validators\Alpha@alphaSpace');
-
-        $this->app->validator->replacer(
-            'alpha_space', function ($message, $attribute, $rule, $parameters) {
-                return str_replace(':attribute', $attribute, trans('lvrules::validation.alpha_space'));
-            }
-        );
-    }
-
-    /**
-     * Register alpha num space validator.
-     *
-     * @return void
-     */
-    public function bootAlphaNumSpace()
-    {
-        $this->app->validator->extend('alpha_num_space', '\Moharrum\LVRules\Validators\Alpha@alphaNumSpace');
-
-        $this->app->validator->replacer(
-            'alpha_num_space',
-            function ($message, $attribute, $rule, $parameters) {
-                return str_replace(':attribute', $attribute, trans('lvrules::validation.alpha_num_space'));
-            }
-        );
-    }
-
-    /**
-     * Register unique with validator.
-     *
-     * @return void
-     */
-    public function bootUniqueWith()
-    {
-        $columns = [];
-
-        $this->app->validator->extend(
-            'unique_with',
-            function ($attribute, $value, $parameters, $validator) use (&$columns) {
-                $uniqueWith = new UniqueWith;
-
-                $check = $uniqueWith->validate($attribute, $value, $parameters, $validator);
-
-                $columns = $uniqueWith->getColumns();
-
-                return $check;
-            }
-        );
-
-        $this->app->validator->replacer(
-            'unique_with',
-            function ($message, $attribute, $rule, $parameters) use (&$columns) {
-                return str_replace(':columns', implode($columns, ', '), trans('lvrules::validation.unique_with'));
-            }
-        );
-    }
-
-    /**
-     * Register odd validator.
-     *
-     * @return void
-     */
-    public function bootOdd()
-    {
-        $this->app->validator->extend('odd', '\Moharrum\LVRules\Validators\Numbers@odd');
-
-        $this->app->validator->replacer(
-            'odd', function ($message, $attribute, $rule, $parameters) {
-                return str_replace(
-                    ':attribute',
-                    $attribute,
-                    trans('lvrules::validation.odd')
-                );
-            }
-        );
-    }
-
-    /**
-     * Register even validator.
-     *
-     * @return void
-     */
-    public function bootEven()
-    {
-        $this->app->validator->extend('even', '\Moharrum\LVRules\Validators\Numbers@even');
-
-        $this->app->validator->replacer(
-            'even', function ($message, $attribute, $rule, $parameters) {
-                return str_replace(
-                    ':attribute',
-                    $attribute,
-                    trans('lvrules::validation.even')
-                );
             }
         );
     }
@@ -401,33 +288,144 @@ class LVRulesServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register decimals validator.
+     * Register lowercase validator.
      *
      * @return void
      */
-    public function bootDecimals()
+    public function bootLowercase()
     {
-        $this->app->validator->extend('decimals', '\Moharrum\LVRules\Validators\Numbers@decimals');
+        $this->app->validator->extend('lowercase', '\Moharrum\LVRules\Validators\Strings@lowercase');
 
         $this->app->validator->replacer(
-            'decimals', function ($message, $attribute, $rule, $parameters) {
-                if (! isset($parameters[0])) {
-                    throw new InvalidArgumentException('Invalid syntax, missing decimals places.');
+            'lowercase', function ($message, $attribute, $rule, $parameters) {
+                $lang = trans('lvrules::validation.lowercase');
+
+                return str_replace(':attribute', $attribute, $lang);
+            }
+        );
+    }
+
+    /**
+     * Register maximum words validator.
+     *
+     * @return void
+     */
+    public function bootMaxWord()
+    {
+        $this->app->validator->extend('max_words', '\Moharrum\LVRules\Validators\Strings@maxWords');
+
+        $this->app->validator->replacer(
+            'max_words',
+            function ($message, $attribute, $rule, $parameters) {
+                $lang = trans('lvrules::validation.max_words');
+                $langWithLength = str_replace(':num_words', $parameters[0], $lang);
+
+                return str_replace(':attribute', $attribute, $langWithLength);
+            }
+        );
+    }
+
+    /**
+     * Register minimum words validator.
+     *
+     * @return void
+     */
+    public function bootMinWord()
+    {
+        $this->app->validator->extend('min_words', '\Moharrum\LVRules\Validators\Strings@minWords');
+
+        $this->app->validator->replacer(
+            'min_words', function ($message, $attribute, $rule, $parameters) {
+                $lang = trans('lvrules::validation.min_words');
+                $langWithLength = str_replace(':num_words', $parameters[0], $lang);
+
+                return str_replace(':attribute', $attribute, $langWithLength);
+            }
+        );
+    }
+
+    /**
+     * Register odd validator.
+     *
+     * @return void
+     */
+    public function bootOdd()
+    {
+        $this->app->validator->extend('odd', '\Moharrum\LVRules\Validators\Numbers@odd');
+
+        $this->app->validator->replacer(
+            'odd', function ($message, $attribute, $rule, $parameters) {
+                return str_replace(
+                    ':attribute',
+                    $attribute,
+                    trans('lvrules::validation.odd')
+                );
+            }
+        );
+    }
+
+    /**
+     * Register always return true validator.
+     *
+     * @return void
+     */
+    public function bootPass()
+    {
+        $this->app->validator->extend('pass', '\Moharrum\LVRules\Validators\Test@pass');
+    }
+
+    /**
+     * Register always return true validator.
+     *
+     * @return void
+     */
+    public function bootPasses()
+    {
+        $this->app->validator->extend('passes', '\Moharrum\LVRules\Validators\Test@passes');
+    }
+
+    /**
+     * Register always return true validator.
+     *
+     * @return void
+     */
+    public function bootValid()
+    {
+        $this->app->validator->extend('valid', '\Moharrum\LVRules\Validators\Test@valid');
+    }
+
+    /**
+     * Register slug validator.
+     *
+     * @return void
+     */
+    public function bootSlug()
+    {
+        $intl = false;
+
+        $this->app->validator->extend(
+            'slug',
+            function ($attribute, $value, $parameters, $validator) use (&$intl) {
+                $slug = new Slug;
+
+                $check = $slug->validate($attribute, $value, $parameters, $validator);
+
+                if (isset($parameters[0]) && ($parameters[0] === 'intl')) {
+                    $intl = true;
                 }
 
-                $numberOfDecimalPointPlaces = (int)$parameters[0];
+                return $check;
+            }
+        );
 
-                return str_replace(
-                    [
-                        ':attribute',
-                        ':num_of_decimal_point_places',
-                    ],
-                    [
-                        $attribute,
-                        $numberOfDecimalPointPlaces
-                    ],
-                    trans('lvrules::validation.decimals')
-                );
+        $this->app->validator->replacer(
+            'slug',
+            function ($message, $attribute, $rule, $parameters) use (&$intl) {
+                if ($intl) {
+                    return str_replace(':attribute', $attribute, trans('lvrules::validation.slug_intl'));
+                }
+
+                return str_replace(':attribute', $attribute, trans('lvrules::validation.slug'));
             }
         );
     }
@@ -444,6 +442,91 @@ class LVRulesServiceProvider extends ServiceProvider
         $this->app->validator->replacer(
             'tld', function ($message, $attribute, $rule, $parameters) {
                 return str_replace(':attribute', $attribute, trans('lvrules::validation.tld'));
+            }
+        );
+    }
+
+    /**
+     * Register unique with validator.
+     *
+     * @return void
+     */
+    public function bootUniqueWith()
+    {
+        $columns = [];
+
+        $this->app->validator->extend(
+            'unique_with',
+            function ($attribute, $value, $parameters, $validator) use (&$columns) {
+                $uniqueWith = new UniqueWith;
+
+                $check = $uniqueWith->validate($attribute, $value, $parameters, $validator);
+
+                $columns = $uniqueWith->getColumns();
+
+                return $check;
+            }
+        );
+
+        $this->app->validator->replacer(
+            'unique_with',
+            function ($message, $attribute, $rule, $parameters) use (&$columns) {
+                $columnsReplaced = str_replace(':columns', implode($columns, ', '), trans('lvrules::validation.unique_with'));
+                return str_replace(':attribute', $attribute, $columnsReplaced);
+            }
+        );
+    }
+
+    /**
+     * Register uppercase validator.
+     *
+     * @return void
+     */
+    public function bootUppercase()
+    {
+        $this->app->validator->extend('uppercase', '\Moharrum\LVRules\Validators\Strings@uppercase');
+
+        $this->app->validator->replacer(
+            'uppercase', function ($message, $attribute, $rule, $parameters) {
+                $lang = trans('lvrules::validation.uppercase');
+
+                return str_replace(':attribute', $attribute, $lang);
+            }
+        );
+    }
+
+    /**
+     * Register username validator.
+     *
+     * @return void
+     */
+    public function bootUsername()
+    {
+        $leadingLetters = false;
+
+        $this->app->validator->extend(
+            'username',
+            function ($attribute, $value, $parameters, $validator) use (&$leadingLetters) {
+                $strings = new Strings;
+
+                $check = $strings->username($attribute, $value, $parameters, $validator);
+
+                if (isset($parameters[0]) && ($parameters[0] === 'letters_do_lead')) {
+                    $leadingLetters = true;
+                }
+
+                return $check;
+            }
+        );
+
+        $this->app->validator->replacer(
+            'username',
+            function ($message, $attribute, $rule, $parameters) use (&$leadingLetters) {
+                if ($leadingLetters) {
+                    return str_replace(':attribute', $attribute, trans('lvrules::validation.username_with_leading_letters'));
+                }
+
+                return str_replace(':attribute', $attribute, trans('lvrules::validation.username'));
             }
         );
     }
