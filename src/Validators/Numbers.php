@@ -35,6 +35,7 @@ class Numbers
      * @param $value
      * @param $parameters
      * @param $validator
+     * @todo  Check if the given value is numeric.
      *
      * @return bool
      */

@@ -1,6 +1,6 @@
 # slug
 
-Determine whether the given value is a valid slug or not.
+Determine whether the given value is a valid url slug or not.
 
 ## Contents
 

@@ -81,6 +81,8 @@ class LVRulesServiceProvider extends ServiceProvider
 
         $this->bootSlug();
 
+        $this->bootTime();
+
         $this->bootTld();
 
         $this->bootUniqueWith();
@@ -426,6 +428,102 @@ class LVRulesServiceProvider extends ServiceProvider
                 }
 
                 return str_replace(':attribute', $attribute, trans('lvrules::validation.slug'));
+            }
+        );
+    }
+
+    /**
+     * Register time validator.
+     *
+     * @return void
+     */
+    public function bootTime()
+    {
+        $this->app->validator->extend('time', '\Moharrum\LVRules\Validators\Time@validate');
+
+        $this->app->validator->replacer(
+            'time', function ($message, $attribute, $rule, $parameters) {
+                $attrReplaced = str_replace(':attribute', $attribute, trans('lvrules::validation.time'));
+
+                if (empty($parameters)) {
+                    return str_replace(':format', 'HH:mm:ss', $attrReplaced);
+                }
+
+                if (in_array('military', $parameters)) {
+                    if (in_array('no_colon', $parameters)) {
+                        return str_replace(':format', 'HHmm', $attrReplaced);
+                    }
+
+                    if (in_array('optional_colon', $parameters)) {
+                        return str_replace(':format', 'HH[:]mm', $attrReplaced);
+                    }
+
+                    if (in_array('mandatory_colon', $parameters)) {
+                        return str_replace(':format', 'HH:mm', $attrReplaced);
+                    }
+
+                    return str_replace(':format', 'HH[:]mm', $attrReplaced);
+                }
+
+                if (in_array('24hr', $parameters)) {
+                    if (in_array('optional_seconds', $parameters)) {
+                        return str_replace(':format', 'HH:mm[:ss]', $attrReplaced);
+                    }
+
+                    return str_replace(':format', 'HH:mm:ss', $attrReplaced);
+                }
+
+                if (in_array('12hr', $parameters)) {
+                    if (in_array('no_meridiems', $parameters)) {
+                        if (in_array('no_seconds', $parameters)) {
+                            return str_replace(':format', 'hh:mm', $attrReplaced);
+                        }
+
+                        if (in_array('optional_seconds', $parameters)) {
+                            return str_replace(':format', 'hh:mm[:ss]', $attrReplaced);
+                        }
+
+                        if (in_array('mandatory_seconds', $parameters)) {
+                            return str_replace(':format', 'hh:mm:ss', $attrReplaced);
+                        }
+
+                        return str_replace(':format', 'hh:mm:ss', $attrReplaced);
+                    }
+
+                    if (in_array('optional_meridiems', $parameters)) {
+                        if (in_array('no_seconds', $parameters)) {
+                            return str_replace(':format', 'hh:mm[ AM|PM]', $attrReplaced);
+                        }
+
+                        if (in_array('optional_seconds', $parameters)) {
+                            return str_replace(':format', 'hh:mm[:ss][ AM|PM]', $attrReplaced);
+                        }
+
+                        if (in_array('mandatory_seconds', $parameters)) {
+                            return str_replace(':format', 'hh:mm:ss[ AM|PM]', $attrReplaced);
+                        }
+
+                        return str_replace(':format', 'hh:mm:ss[ AM|PM]', $attrReplaced);
+                    }
+
+                    if (in_array('mandatory_meridiems', $parameters)) {
+                        if (in_array('no_seconds', $parameters)) {
+                            return str_replace(':format', 'hh:mm AM|PM', $attrReplaced);
+                        }
+
+                        if (in_array('optional_seconds', $parameters)) {
+                            return str_replace(':format', 'hh:mm[:ss] AM|PM', $attrReplaced);
+                        }
+
+                        if (in_array('mandatory_seconds', $parameters)) {
+                            return str_replace(':format', 'hh:mm:ss AM|PM', $attrReplaced);
+                        }
+
+                        return str_replace(':format', 'hh:mm:ss AM|PM', $attrReplaced);
+                    }
+
+                    return str_replace(':format', 'hh:mm:ss AM|PM', $attrReplaced);
+                }
             }
         );
     }

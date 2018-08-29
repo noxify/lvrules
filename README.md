@@ -28,7 +28,7 @@ Via Composer
 $ composer require moharrum/lvrules
 ```
 
-Edit `config/app.php` and add the `provider`
+Edit `config/app.php` and add the `provider` (only for Laravel 5.4 or below):
 
 ```php
     'providers' => [
@@ -38,23 +38,24 @@ Edit `config/app.php` and add the `provider`
 
 ## Rules
 
-1. [alpha_num_space](src/docs/ALPHA_NUM_SPACE.md).
-1. [alpha_space](src/docs/ALPHA_SPACE.md).
-1. [decimals](src/docs/DECIMALS.md).
-1. [even](src/docs/EVEN.md).
-1. [fails](src/docs/FAILS.md).
-1. [finite](src/docs/FINITE.md).
-1. [infinite](src/docs/INFINITE.md).
-1. [lowercase](src/docs/LOWERCASE.md).
-1. [max_words](src/docs/MAX_WORDS.md).
-1. [min_words](src/docs/MIN_WORDS.md).
-1. [odd](src/docs/ODD.md).
-1. [passes](src/docs/PASSES.md).
-1. [slug](src/docs/SLUG.md).
-1. [tld](src/docs/TLD.md).
-1. [unique_with](src/docs/UNIQUE_WITH.md).
-1. [uppercase](src/docs/UPPERCASE.md).
-1. [username](src/docs/USERNAME.md).
+- __[alpha_num_space](src/docs/ALPHA_NUM_SPACE.md)__ - Determine whether or not the given string consists of a combination of letters, numbers, spaces.
+- __[alpha_space](src/docs/ALPHA_SPACE.md)__ - Determine whether or not the given string consists of a combination of letters and spaces.
+- __[decimals](src/docs/DECIMALS.md)__ - Determine whether or not the given number has (n) decimal point places or not.
+- __[even](src/docs/EVEN.md)__ - Validates if the given value is even number.
+- __[fails](src/docs/FAILS.md)__ - Obviously, validation will always return false.
+- __[finite](src/docs/FINITE.md)__ - Validates if the given is legal finite number.
+- __[infinite](src/docs/INFINITE.md)__ - Validates if the given value is infinite.
+- __[lowercase](src/docs/LOWERCASE.md)__ - Validates if the given string is in lowercase format.
+- __[max_words](src/docs/MAX_WORDS.md)__ - Validates if the given string contains more than (n) number of words.
+- __[min_words](src/docs/MIN_WORDS.md)__ - Validates if the given string contains at least (n) number of words.
+- __[odd](src/docs/ODD.md)__ - Validates if the given value is odd.
+- __[passes](src/docs/PASSES.md)__ - Obviously, validation will always return true.
+- __[slug](src/docs/SLUG.md)__ - Validates if the given string is url slug.
+- __[time](src/docs/TIME.md)__ - Validates if the given string is a time format.
+- __[tld](src/docs/TLD.md)__ - Validates if the given string is a top level domain.
+- __[unique_with](src/docs/UNIQUE_WITH.md)__ - Validates multi columns and values uniqueness.
+- __[uppercase](src/docs/UPPERCASE.md)__ - Validates if the given string is in uppercase format.
+- __[username](src/docs/USERNAME.md)__ - Validates if the given string is a username.
 
 ## Languages
 

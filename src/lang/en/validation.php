@@ -15,6 +15,7 @@ return [
     'odd' => 'The :attribute must an odd number.',
     'slug' => 'The :attribute must only contain Latin letters, numbers and (-) sign.',
     'slug_intl' => 'The :attribute must only contain letters, numbers and (-) sign.',
+    'time' => 'The :attribute does not match the format :format.',
     'tld' => 'The :attribute must be a valid top level domain.',
     'unique_with' => 'The :attribute must be must be unique with the :columns.',
     'uppercase' => 'The :attribute must be in uppercase format.',
