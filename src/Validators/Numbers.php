@@ -140,6 +140,10 @@ class Numbers
             throw new InvalidArgumentException('Decimals Validation Rule: 0 is not acceptable.');
         }
 
+        if (isset($parameters[1]) && $parameters[1] === 'optional_decimals') {
+            return preg_match('/^[+-]?\p{Nd}+((.|,)\p{Nd}{1,' . $numberOfDecimalPointPlaces . '})?$/u', $value);
+        }
+
         return preg_match('/^[+-]?\p{Nd}+(.|,)\p{Nd}{1,' . $numberOfDecimalPointPlaces . '}$/u', $value);
     }
 }
