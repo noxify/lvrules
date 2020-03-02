@@ -40,6 +40,7 @@ Edit `config/app.php` and add the `provider` (only for Laravel 5.4 or below):
 
 - __[alpha_num_space](src/docs/ALPHA_NUM_SPACE.md)__ - Determine whether or not the given string consists of a combination of letters, numbers, spaces.
 - __[alpha_space](src/docs/ALPHA_SPACE.md)__ - Determine whether or not the given string consists of a combination of letters and spaces.
+- __[alpha_dash](src/docs/ALPHA_DASH.md)__ - Determine whether or not the given string consists of a combination of letters and dashes.
 - __[decimals](src/docs/DECIMALS.md)__ - Determine whether or not the given number has (n) decimal point places or not.
 - __[even](src/docs/EVEN.md)__ - Validates if the given value is even number.
 - __[fails](src/docs/FAILS.md)__ - Obviously, validation will always return false.

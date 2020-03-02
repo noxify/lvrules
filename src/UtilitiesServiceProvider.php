@@ -14,10 +14,10 @@
 
 namespace Moharrum\LVRules;
 
-use \Moharrum\LVRules\Validators\Slug;
+use Moharrum\LVRules\Validators\Slug;
 use Illuminate\Support\ServiceProvider;
-use \Moharrum\LVRules\Validators\Strings;
-use \Moharrum\LVRules\Validators\UniqueWith;
+use Moharrum\LVRules\Validators\Strings;
+use Moharrum\LVRules\Validators\UniqueWith;
 use Moharrum\LVRules\Exceptions\InvalidArgumentException;
 
 /**
@@ -95,7 +95,6 @@ class LVRulesServiceProvider extends ServiceProvider
 
         // Still not developed
         $this->bootColor();
-
     }
 
     /**
@@ -135,8 +134,26 @@ class LVRulesServiceProvider extends ServiceProvider
         $this->app->validator->extend('alpha_space', '\Moharrum\LVRules\Validators\Strings@alphaSpace');
 
         $this->app->validator->replacer(
-            'alpha_space', function ($message, $attribute, $rule, $parameters) {
+            'alpha_space',
+            function ($message, $attribute, $rule, $parameters) {
                 return str_replace(':attribute', $attribute, trans('lvrules::validation.alpha_space'));
+            }
+        );
+    }
+
+    /**
+     * Register alpha dash validator.
+     *
+     * @return void
+     */
+    public function bootAlphaDash()
+    {
+        $this->app->validator->extend('alpha_dash', '\Moharrum\LVRules\Validators\Strings@alphaDash');
+
+        $this->app->validator->replacer(
+            'alpha_dash',
+            function ($message, $attribute, $rule, $parameters) {
+                return str_replace(':attribute', $attribute, trans('lvrules::validation.alpha_dash'));
             }
         );
     }
@@ -151,7 +168,8 @@ class LVRulesServiceProvider extends ServiceProvider
         $this->app->validator->extend('decimals', '\Moharrum\LVRules\Validators\Numbers@decimals');
 
         $this->app->validator->replacer(
-            'decimals', function ($message, $attribute, $rule, $parameters) {
+            'decimals',
+            function ($message, $attribute, $rule, $parameters) {
                 if (! isset($parameters[0])) {
                     throw new InvalidArgumentException('Invalid syntax, missing decimals places.');
                 }
@@ -183,7 +201,8 @@ class LVRulesServiceProvider extends ServiceProvider
         $this->app->validator->extend('even', '\Moharrum\LVRules\Validators\Numbers@even');
 
         $this->app->validator->replacer(
-            'even', function ($message, $attribute, $rule, $parameters) {
+            'even',
+            function ($message, $attribute, $rule, $parameters) {
                 return str_replace(
                     ':attribute',
                     $attribute,
@@ -203,7 +222,8 @@ class LVRulesServiceProvider extends ServiceProvider
         $this->app->validator->extend('fail', '\Moharrum\LVRules\Validators\Test@fail');
 
         $this->app->validator->replacer(
-            'fail', function ($message, $attribute, $rule, $parameters) {
+            'fail',
+            function ($message, $attribute, $rule, $parameters) {
                 $lang = trans('lvrules::validation.fail');
 
                 return str_replace(':attribute', $attribute, $lang);
@@ -259,7 +279,8 @@ class LVRulesServiceProvider extends ServiceProvider
         $this->app->validator->extend('finite', '\Moharrum\LVRules\Validators\Numbers@finite');
 
         $this->app->validator->replacer(
-            'finite', function ($message, $attribute, $rule, $parameters) {
+            'finite',
+            function ($message, $attribute, $rule, $parameters) {
                 return str_replace(
                     ':attribute',
                     $attribute,
@@ -279,7 +300,8 @@ class LVRulesServiceProvider extends ServiceProvider
         $this->app->validator->extend('infinite', '\Moharrum\LVRules\Validators\Numbers@infinite');
 
         $this->app->validator->replacer(
-            'infinite', function ($message, $attribute, $rule, $parameters) {
+            'infinite',
+            function ($message, $attribute, $rule, $parameters) {
                 return str_replace(
                     ':attribute',
                     $attribute,
@@ -299,7 +321,8 @@ class LVRulesServiceProvider extends ServiceProvider
         $this->app->validator->extend('lowercase', '\Moharrum\LVRules\Validators\Strings@lowercase');
 
         $this->app->validator->replacer(
-            'lowercase', function ($message, $attribute, $rule, $parameters) {
+            'lowercase',
+            function ($message, $attribute, $rule, $parameters) {
                 $lang = trans('lvrules::validation.lowercase');
 
                 return str_replace(':attribute', $attribute, $lang);
@@ -337,7 +360,8 @@ class LVRulesServiceProvider extends ServiceProvider
         $this->app->validator->extend('min_words', '\Moharrum\LVRules\Validators\Strings@minWords');
 
         $this->app->validator->replacer(
-            'min_words', function ($message, $attribute, $rule, $parameters) {
+            'min_words',
+            function ($message, $attribute, $rule, $parameters) {
                 $lang = trans('lvrules::validation.min_words');
                 $langWithLength = str_replace(':num_words', $parameters[0], $lang);
 
@@ -356,7 +380,8 @@ class LVRulesServiceProvider extends ServiceProvider
         $this->app->validator->extend('odd', '\Moharrum\LVRules\Validators\Numbers@odd');
 
         $this->app->validator->replacer(
-            'odd', function ($message, $attribute, $rule, $parameters) {
+            'odd',
+            function ($message, $attribute, $rule, $parameters) {
                 return str_replace(
                     ':attribute',
                     $attribute,
@@ -442,7 +467,8 @@ class LVRulesServiceProvider extends ServiceProvider
         $this->app->validator->extend('time', '\Moharrum\LVRules\Validators\Time@validate');
 
         $this->app->validator->replacer(
-            'time', function ($message, $attribute, $rule, $parameters) {
+            'time',
+            function ($message, $attribute, $rule, $parameters) {
                 $attrReplaced = str_replace(':attribute', $attribute, trans('lvrules::validation.time'));
 
                 if (empty($parameters)) {
@@ -538,7 +564,8 @@ class LVRulesServiceProvider extends ServiceProvider
         $this->app->validator->extend('tld', '\Moharrum\LVRules\Validators\Tlds@validate');
 
         $this->app->validator->replacer(
-            'tld', function ($message, $attribute, $rule, $parameters) {
+            'tld',
+            function ($message, $attribute, $rule, $parameters) {
                 return str_replace(':attribute', $attribute, trans('lvrules::validation.tld'));
             }
         );
@@ -585,7 +612,8 @@ class LVRulesServiceProvider extends ServiceProvider
         $this->app->validator->extend('uppercase', '\Moharrum\LVRules\Validators\Strings@uppercase');
 
         $this->app->validator->replacer(
-            'uppercase', function ($message, $attribute, $rule, $parameters) {
+            'uppercase',
+            function ($message, $attribute, $rule, $parameters) {
                 $lang = trans('lvrules::validation.uppercase');
 
                 return str_replace(':attribute', $attribute, $lang);
@@ -639,7 +667,8 @@ class LVRulesServiceProvider extends ServiceProvider
         $this->app->validator->extend('color', '\Moharrum\LVRules\Validators\Color@validate');
 
         $this->app->validator->replacer(
-            'color', function ($message, $attribute, $rule, $parameters) {
+            'color',
+            function ($message, $attribute, $rule, $parameters) {
                 return str_replace(':attribute', $attribute, trans('lvrules::validation.color'));
             }
         );

@@ -4,6 +4,7 @@ return [
 
     'alpha_num_space' => 'The :attribute may only contain letters, numbers and spaces.',
     'alpha_space' => 'The :attribute may only contain letters and spaces.',
+    'alpha_dash' => 'The :attribute may only contain letters and dashes.',
     'decimals' => 'The :attribute must not have more than :num_of_decimal_point_places decimal point places.',
     'even' => 'The :attribute must an even number.',
     'fail' => 'The :attribute field is invalid.',

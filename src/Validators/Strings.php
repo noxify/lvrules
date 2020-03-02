@@ -59,6 +59,21 @@ class Strings
     }
 
     /**
+     * Determine whether the given string is valid or not.
+     *
+     * @param $attribute
+     * @param $value
+     * @param $parameters
+     * @param $validator
+     *
+     * @return bool
+     */
+    public function alphaDash($attribute, $value, $parameters, $validator)
+    {
+        return preg_match('/^[\p{L}-]+$/u', $value);
+    }
+
+    /**
      * Determine whether the given string is in lowercase format or not.
      *
      * @param $attribute
